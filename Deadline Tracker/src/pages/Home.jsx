@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import EventContext from "../context/EventContext";
+import EventCard from "../components/EventCard";
 
 function Home() {
+  const { events } = useContext(EventContext);
   const [thisWeekEvents, setThisWeekEvents] = useState([]);
   const [upcomingEvents, setUpcomingEvents] = useState([]);
+
+  useEffect(() => {
+    setUpcomingEvents(events);
+  }, [events]);
 
   return (
     <div className="space-y-8">
@@ -30,7 +37,11 @@ function Home() {
           Events This Week
         </h2>
         {thisWeekEvents.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {thisWeekEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
         ) : (
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-center">
             <p className="text-gray-600 dark:text-gray-300">
@@ -60,7 +71,11 @@ function Home() {
           Upcoming Events
         </h2>
         {upcomingEvents.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {upcomingEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
         ) : (
           <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 text-center">
             <p className="text-gray-600 dark:text-gray-300">

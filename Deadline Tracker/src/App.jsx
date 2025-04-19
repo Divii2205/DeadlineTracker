@@ -1,12 +1,13 @@
 import React from "react";
 import Navbar from "./components/Navbar";
-import Home from "./pages/Home"
-import Calendar from "./pages/Calendar"
+import Home from "./pages/Home";
+import Calendar from "./pages/Calendar";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { EventProvider } from './context/EventContext';
 
 function App() {
   return (
-    <div>
+    <EventProvider>
       <BrowserRouter>
         <div className="min-h-screen transition-colors duration-300 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
           <Navbar />
@@ -18,7 +19,7 @@ function App() {
           </div>
         </div>
       </BrowserRouter>
-    </div>
+    </EventProvider>
   );
 }
 
