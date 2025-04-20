@@ -92,6 +92,12 @@ export const EventProvider = ({ children }) => {
     localStorage.setItem("events", JSON.stringify(events));
   }, [events]);
 
+  const deleteEvent = (id) => {
+    if (!isAdmin) return false;
+    setEvents(events.filter((event) => event.id !== id));
+    return true;
+  };
+
   const login = (password) => {
     if (password === ADMIN_PASSWORD) {
       setIsAdmin(true);
@@ -123,6 +129,7 @@ export const EventProvider = ({ children }) => {
         eventCategories,
         selectedEvent,
         showEventModal,
+        deleteEvent,
         isAdmin,
         login,
         logout,
