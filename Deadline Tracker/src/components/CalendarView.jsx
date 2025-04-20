@@ -1,4 +1,5 @@
 import { useState, useContext } from "react";
+import EventContext from "../context/EventContext";
 import { getCalendarDays, getEventsForDate } from "../utils/dateUtils";
 
 const MONTH_NAMES = [
@@ -22,6 +23,8 @@ const CalendarView = () => {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
+
+  const { events } = useContext(EventContext);
 
   const days = getCalendarDays(currentYear, currentMonth);
 
@@ -112,6 +115,10 @@ const CalendarView = () => {
           </div>
         ))}
         {days.map((day, index) => {
+          const dayEvents = getEventsForDate(events, day.date).sort(
+            (a, b) => new Date(a.date) - new Date(b.date)
+          );
+
           return (
             <div
               key={index}
@@ -133,6 +140,30 @@ const CalendarView = () => {
                 >
                   {day.date.getDate()}
                 </span>
+                {dayEvents.length > 0 && (
+                  <span className="text-xs px-1 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                    {dayEvents.length}
+                  </span>
+                )}
+              </div>
+              <div className="mt-1 space-y-1 max-h-[80px] overflow-y-auto">
+                {dayEvents.map((event) => (
+                  <div
+                    key={event.id}
+                    className={`text-xs px-2 py-1 truncate cursor-pointer rounded
+                               ${
+                                 event.category === "project"
+                                   ? "bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200"
+                                   : event.category === "assignment"
+                                   ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200"
+                                   : event.category === "event"
+                                   ? "bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200"
+                                   : "bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200"
+                               }`}
+                  >
+                    {event.title}
+                  </div>
+                ))}
               </div>
             </div>
           );
