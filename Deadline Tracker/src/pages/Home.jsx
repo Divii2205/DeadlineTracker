@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import EventContext from "../context/EventContext";
 import EventCard from "../components/EventCard";
+import EventModal from '../components/EventModal';
 
 function Home() {
   const { events } = useContext(EventContext);
@@ -8,7 +9,8 @@ function Home() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
   useEffect(() => {
-    setUpcomingEvents(events);
+    setUpcomingEvents(thisWeekEvents);
+    setUpcomingEvents(upcomingEvents);
   }, [events]);
 
   return (
@@ -84,6 +86,7 @@ function Home() {
           </div>
         )}
       </section>
+      <EventModal />
     </div>
   );
 }

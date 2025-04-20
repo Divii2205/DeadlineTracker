@@ -24,6 +24,8 @@ const CalendarView = ({ filteredEvents }) => {
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
 
+  const { openEventModal } = useContext(EventContext);
+
   const days = getCalendarDays(currentYear, currentMonth);
 
   const goToPreviousMonth = () => {
@@ -148,6 +150,7 @@ const CalendarView = ({ filteredEvents }) => {
                 {dayEvents.map((event) => (
                   <div
                     key={event.id}
+                    onClick={() => openEventModal(event)}
                     className={`text-xs px-2 py-1 truncate cursor-pointer rounded
                                ${
                                  event.category === "project"

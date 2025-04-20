@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useContext, useEffect } from "react";
 import EventContext from "../context/EventContext";
 import CalendarView from "../components/CalendarView";
+import EventModal from "../components/EventModal";
 import SearchBar from "../components/SearchBar";
 
 function Calendar() {
@@ -45,6 +46,7 @@ function Calendar() {
         categories={eventCategories}
       />
       <CalendarView filteredEvents={filteredEvents} />
+      <EventModal />
     </div>
   );
 }

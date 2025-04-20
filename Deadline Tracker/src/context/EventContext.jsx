@@ -46,6 +46,8 @@ const EventContext = createContext();
 
 export const EventProvider = ({ children }) => {
   const [events, setEvents] = useState(sampleEvents);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+  const [showEventModal, setShowEventModal] = useState(false);
 
   // Get events from local storage
   useEffect(() => {
@@ -61,11 +63,25 @@ export const EventProvider = ({ children }) => {
     localStorage.setItem("events", JSON.stringify(events));
   }, [events]);
 
+  const openEventModal = (event) => {
+    setSelectedEvent(event);
+    setShowEventModal(true);
+  };
+
+  const closeEventModal = () => {
+    setShowEventModal(false);
+    setSelectedEvent(null);
+  };
+
   return (
     <EventContext.Provider
       value={{
         events,
         eventCategories,
+        selectedEvent,
+        showEventModal,
+        openEventModal,
+        closeEventModal,
       }}
     >
       {children}
