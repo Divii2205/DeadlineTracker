@@ -37,7 +37,7 @@ const sampleEvents = [
     title: "DSA Interview",
     description: "Third & Final Attempt of the Mock Interview",
     category: "assignment",
-    date: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString(), // 5 days from now
+    date: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
     createdAt: new Date().toISOString(),
   },
 ];

@@ -141,7 +141,7 @@ const CalendarView = ({ filteredEvents }) => {
                   {day.date.getDate()}
                 </span>
                 {dayEvents.length > 0 && (
-                  <span className="text-xs px-1 rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                  <span className="text-xs px-1 rounded-full bg-red-100 text-blue-800 dark:bg-red-900 dark:text-blue-200">
                     {dayEvents.length}
                   </span>
                 )}
