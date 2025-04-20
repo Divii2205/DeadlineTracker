@@ -1,6 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import ThemeContext from "../context/ThemeContext";
+import EventContext from "../context/EventContext";
+import AdminLogin from "./AdminLogin";
 
 const SunIcon = () => (
   <svg
@@ -38,7 +40,10 @@ const MoonIcon = () => (
 
 function Navbar() {
   const { darkMode, toggleTheme } = useContext(ThemeContext);
+  const { isAdmin, logout } = useContext(EventContext);
+  const [showLogin, setShowLogin] = useState(false);
   const location = useLocation();
+
   return (
     <nav className="bg-white dark:bg-gray-800 shadow-md">
       <div className="container mx-auto px-4">
@@ -104,6 +109,7 @@ function Navbar() {
               </Link>
             </div>
           </div>
+
           <div className="flex items-center space-x-4">
             {/* Theme Toggle */}
             <button
@@ -115,9 +121,54 @@ function Navbar() {
             >
               {darkMode ? <SunIcon /> : <MoonIcon />}
             </button>
+
+            {isAdmin ? (
+              <button
+                onClick={logout}
+                className="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded-md flex items-center space-x-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                <span>Admin Logout</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => setShowLogin(true)}
+                className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded-md flex items-center space-x-1"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>Admin Login</span>
+              </button>
+            )}
           </div>
         </div>
       </div>
+      {showLogin && <AdminLogin onClose={() => setShowLogin(false)} />}
     </nav>
   );
 }

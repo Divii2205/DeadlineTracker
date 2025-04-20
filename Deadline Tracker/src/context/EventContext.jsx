@@ -67,9 +67,11 @@ const sampleEvents = [
 ];
 
 const EventContext = createContext();
+const ADMIN_PASSWORD = "SSTadmin123";
 
 export const EventProvider = ({ children }) => {
   const [events, setEvents] = useState(sampleEvents);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showEventModal, setShowEventModal] = useState(false);
 
@@ -81,11 +83,28 @@ export const EventProvider = ({ children }) => {
     } else {
       setEvents(sampleEvents);
     }
+
+    const adminStatus = localStorage.getItem("isAdmin");
+    setIsAdmin(adminStatus === "true");
   }, []);
 
   useEffect(() => {
     localStorage.setItem("events", JSON.stringify(events));
   }, [events]);
+
+  const login = (password) => {
+    if (password === ADMIN_PASSWORD) {
+      setIsAdmin(true);
+      localStorage.setItem("isAdmin", "true");
+      return true;
+    }
+    return false;
+  };
+
+  const logout = () => {
+    setIsAdmin(false);
+    localStorage.removeItem("isAdmin");
+  };
 
   const openEventModal = (event) => {
     setSelectedEvent(event);
@@ -104,6 +123,9 @@ export const EventProvider = ({ children }) => {
         eventCategories,
         selectedEvent,
         showEventModal,
+        isAdmin,
+        login,
+        logout,
         openEventModal,
         closeEventModal,
       }}
