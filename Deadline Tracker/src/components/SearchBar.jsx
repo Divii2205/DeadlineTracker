@@ -17,7 +17,7 @@ const SearchBar = ({ onSearch, onFilterChange, categories }) => {
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-4 mb-6">
-      <form onChange={handleSearch} className="flex flex-col md:flex-row gap-3">
+      <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-3">
         <div className="flex-grow relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <svg

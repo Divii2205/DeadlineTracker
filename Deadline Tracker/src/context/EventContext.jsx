@@ -40,6 +40,30 @@ const sampleEvents = [
     date: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
     createdAt: new Date().toISOString(),
   },
+  {
+    id: "3",
+    title: "Speaker Session",
+    description: "Super Mentor Session",
+    category: "event",
+    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "4",
+    title: "Lunch Fees",
+    description: "Lunch Fees for the month of May 2025",
+    category: "task",
+    date: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "5",
+    title: "Speaker Session2",
+    description: "Super Mentor Session",
+    category: "event",
+    date: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 const EventContext = createContext();

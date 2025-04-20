@@ -75,7 +75,7 @@ function Home() {
         <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100 flex items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="h-6 w-6 mr-2 text-green-500 dark:text-blue-400"
+            className="h-6 w-6 mr-2 text-blue-500 dark:text-blue-400"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
