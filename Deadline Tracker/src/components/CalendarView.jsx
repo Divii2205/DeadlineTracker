@@ -19,12 +19,10 @@ const MONTH_NAMES = [
 
 const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-const CalendarView = () => {
+const CalendarView = ({ filteredEvents }) => {
   const today = new Date();
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
-
-  const { events } = useContext(EventContext);
 
   const days = getCalendarDays(currentYear, currentMonth);
 
@@ -115,7 +113,7 @@ const CalendarView = () => {
           </div>
         ))}
         {days.map((day, index) => {
-          const dayEvents = getEventsForDate(events, day.date).sort(
+          const dayEvents = getEventsForDate(filteredEvents, day.date).sort(
             (a, b) => new Date(a.date) - new Date(b.date)
           );
 
