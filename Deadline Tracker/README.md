@@ -36,7 +36,7 @@ Deadline Tracker is a powerful, user-friendly deadline management dashboard desi
 ### Installation
 1. Clone the repository
 ```bash
-git clone https://github.com/divii2205/deadline-tracker.git
+git clone https://github.com/Divii2205/deadlinetracker.git
 ```
 
 2. Install dependencies
