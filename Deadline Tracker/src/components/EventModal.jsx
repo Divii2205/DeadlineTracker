@@ -2,6 +2,38 @@ import { useContext, useState, useEffect } from "react";
 import EventContext from "../context/EventContext";
 import { formatDate, getRemainingDays, isPast } from "../utils/dateUtils";
 import EventForm from "./EventForm";
+import { buildGoogleCalendarUrl } from "../utils/googleCalendar";
+
+const GoogleIcon = ({ size = 20 }) => (
+  <svg
+    className="mr-2" // adds right spacing
+    width={size}
+    height={size}
+    viewBox="0 0 533.5 544.3"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-label="Google logo"
+    role="img"
+  >
+    <g>
+      <path
+        fill="#4285F4"
+        d="M533.5 278.4c0-17.7-1.6-35-4.6-51.7H272v97.9h147.6c-6.4 34.5-25.4 63.6-54.1 83.1l87.1 67.6c50.8-46.8 80.9-115.7 80.9-197z"
+      />
+      <path
+        fill="#34A853"
+        d="M272 544.3c72.9 0 134-24.2 178.6-65.9l-87.1-67.6c-24.2 16.3-55.1 25.9-91.5 25.9-70.3 0-129.9-47.5-151.2-111.1l-89.6 69.2c43.7 86.5 133.5 149.5 240.8 149.5z"
+      />
+      <path
+        fill="#FBBC05"
+        d="M120.8 325.6c-10.4-30.8-10.4-64.4 0-95.2l-89.6-69.2C-10.8 228.3-10.8 316 31.2 390.8l89.6-69.2z"
+      />
+      <path
+        fill="#EA4335"
+        d="M272 107.7c39.7-.6 77.7 14.3 106.5 41.6l79.6-77.3C412.1 26.7 345.6 0 272 0 164.7 0 74.9 63 31.2 149.6l89.6 69.2c21.3-63.6 80.9-111.1 151.2-111.1z"
+      />
+    </g>
+  </svg>
+);
 
 const EventModal = () => {
   const {
@@ -49,6 +81,11 @@ const EventModal = () => {
       deleteEvent(selectedEvent.id);
       closeEventModal();
     }
+  };
+
+  const handleGoogleCalendar = () => {
+    const url = buildGoogleCalendarUrl(selectedEvent);
+    window.open(url, "_blank", "noopener,noreferrer");
   };
 
   return (
@@ -189,6 +226,17 @@ const EventModal = () => {
               ) : (
                 <div></div>
               )}
+              <div>
+                <button
+                  className="flex items-center text-sm font-medium px-4 py-2 bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-md shadow-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-sm font-medium cursor-pointer"
+                  onClick={handleGoogleCalendar}
+                  aria-label="Add to Google Calendar"
+                  type="button"
+                >
+                  <GoogleIcon />
+                  Add to Google Calendar
+                </button>
+              </div>
             </div>
           </>
         )}
