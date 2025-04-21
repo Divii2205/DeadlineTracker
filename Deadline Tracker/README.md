@@ -1,12 +1,68 @@
-# React + Vite
+# Deadline Tracker 🚀
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
+Deadline Tracker is a powerful, user-friendly deadline management dashboard designed to help you track, and manage your important events, projects, and tasks hassle free! Stay up to date with task completion!
 
-Currently, two official plugins are available:
+## 🌟 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Deadline Management
+- **Color-Coded Categories**: Visually distinguish between different types of events
+- **Deadline Status**: Instant visibility into upcoming and past-due events
 
-## Expanding the ESLint configuration
+### User Experience
+- **Responsive Design**: Seamless experience across desktop and mobile devices
+- **Dark/Light Theme**: Customizable UI for comfortable viewing
+- **Google Calendar Integration**: Sync events directly to your Google Calendar
+- **Search and Filter**: Easily find specific events
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Admin Controls
+- **Secure Admin Access**: Restricted event management capabilities
+- **Comprehensive Event Tracking**: Add, edit, and delete events across multiple categories
+- **Event Editing**: Modify event details with ease
+
+## 🛠 Technical Stack
+- **Frontend**: React
+- **Styling**: Tailwind CSS
+- **Routing**: React Router
+- **State Management**: Context API
+- **Responsive Design**: Mobile-first approach
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js (v18+)
+- npm
+
+### Installation
+1. Clone the repository
+```bash
+git clone https://github.com/divii2205/deadline-tracker.git
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Start the development server
+```bash
+npm run dev
+```
+
+## 🔐 Admin Access
+- **Default Admin Password**: `SSTadmin123`
+
+## 📦 Project Structure
+- `src/components/`: Reusable UI components
+- `src/pages/`: Main application pages
+- `src/context/`: Global state management
+- `src/utils/`: Utility functions and helpers
+
+## 🌈 Upcoming Features
+- Advanced Notification System
+
+## 📸 Screenshots
+![Event Form](EventForm.png)
+![Dashboard Preview](Dashboard.png)
+![Calendar View](Calendar.png)
+![Event Card](EventCard.png)
