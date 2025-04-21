@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import EventContext from "../context/EventContext";
 import EventCard from "../components/EventCard";
 import EventModal from "../components/EventModal";
-import { isThisWeek, isFuture } from '../utils/dateUtils';
+import AddEventButton from "../components/AddEventButton";
+import { isThisWeek, isFuture } from "../utils/dateUtils";
 
 function Home() {
   const { events } = useContext(EventContext);
@@ -10,12 +11,12 @@ function Home() {
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
   useEffect(() => {
-    const currentDate = new Date();
-
     const eventsThisWeek = events
       .filter((event) => {
         const eventDate = new Date(event.date);
-        return isThisWeek(eventDate) && eventDate >= currentDate;
+        const startOfToday = new Date();
+        startOfToday.setHours(0, 0, 0, 0);
+        return isThisWeek(eventDate) && eventDate >= startOfToday;
       })
       .sort((a, b) => new Date(a.date) - new Date(b.date));
 
@@ -104,6 +105,7 @@ function Home() {
         )}
       </section>
       <EventModal />
+      <AddEventButton />
     </div>
   );
 }

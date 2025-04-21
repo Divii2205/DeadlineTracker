@@ -4,6 +4,7 @@ import EventContext from "../context/EventContext";
 import CalendarView from "../components/CalendarView";
 import EventModal from "../components/EventModal";
 import SearchBar from "../components/SearchBar";
+import AddEventButton from "../components/AddEventButton";
 
 function Calendar() {
   const { events, eventCategories } = useContext(EventContext);
@@ -47,6 +48,7 @@ function Calendar() {
       />
       <CalendarView filteredEvents={filteredEvents} />
       <EventModal />
+      <AddEventButton />
     </div>
   );
 }

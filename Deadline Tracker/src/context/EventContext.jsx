@@ -61,7 +61,7 @@ const sampleEvents = [
     title: "Speaker Session2",
     description: "Super Mentor Session",
     category: "event",
-    date: new Date(Date.now() + 4 * 24 * 60 * 60 * 1000).toISOString(),
+    date: new Date(Date.now()).toISOString(),
     createdAt: new Date().toISOString(),
   },
 ];
@@ -70,10 +70,11 @@ const EventContext = createContext();
 const ADMIN_PASSWORD = "SSTadmin123";
 
 export const EventProvider = ({ children }) => {
-  const [events, setEvents] = useState(sampleEvents);
+  const [events, setEvents] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [showEventModal, setShowEventModal] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Get events from local storage
   useEffect(() => {
@@ -86,15 +87,40 @@ export const EventProvider = ({ children }) => {
 
     const adminStatus = localStorage.getItem("isAdmin");
     setIsAdmin(adminStatus === "true");
+    setIsInitialized(true);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("events", JSON.stringify(events));
-  }, [events]);
+    if(isInitialized) localStorage.setItem("events", JSON.stringify(events));
+  }, [events, isInitialized]);
 
   const deleteEvent = (id) => {
     if (!isAdmin) return false;
     setEvents(events.filter((event) => event.id !== id));
+    return true;
+  };
+
+  const addEvent = (event) => {
+    if (!isAdmin) return false;
+
+    const newEvent = {
+      ...event,
+      id: Date.now().toString(),
+      createdAt: new Date().toISOString(),
+    };
+
+    setEvents([...events, newEvent]);
+    return true;
+  };
+
+  const updateEvent = (updatedEvent) => {
+    if (!isAdmin) return false;
+
+    setEvents(
+      events.map((event) =>
+        event.id === updatedEvent.id ? updatedEvent : event
+      )
+    );
     return true;
   };
 
@@ -129,7 +155,9 @@ export const EventProvider = ({ children }) => {
         eventCategories,
         selectedEvent,
         showEventModal,
+        addEvent,
         deleteEvent,
+        updateEvent,
         isAdmin,
         login,
         logout,
