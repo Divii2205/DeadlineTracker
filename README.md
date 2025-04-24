@@ -62,7 +62,7 @@ npm run dev
 - Advanced Notification System
 
 ## 📸 Screenshots
-![Event Form](EventForm.png)
-![Dashboard Preview](Dashboard.png)
-![Calendar View](Calendar.png)
-![Event Card](EventCard.png)
+![Event Form](DeadlineTracker/EventForm.png)
+![Dashboard Preview](DeadlineTracker/Dashboard.png)
+![Calendar View](DeadlineTracker/Calendar.png)
+![Event Card](DeadlineTracker/EventCard.png)
