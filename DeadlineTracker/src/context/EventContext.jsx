@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from "react";
+import supabase from "../utils/supabaseClient";
 
 const eventCategories = [
   {
@@ -23,48 +24,7 @@ const eventCategories = [
   },
 ];
 
-const sampleEvents = [
-  {
-    id: "1",
-    title: "Submit React Project",
-    description: "Final submission for React course project",
-    category: "project",
-    date: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString(),
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "2",
-    title: "DSA Interview",
-    description: "Third & Final Attempt of the Mock Interview",
-    category: "assignment",
-    date: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "3",
-    title: "Speaker Session",
-    description: "Super Mentor Session",
-    category: "event",
-    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "4",
-    title: "Lunch Fees",
-    description: "Lunch Fees for the month of May 2025",
-    category: "task",
-    date: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "5",
-    title: "Speaker Session2",
-    description: "Super Mentor Session",
-    category: "event",
-    date: new Date(Date.now()).toISOString(),
-    createdAt: new Date().toISOString(),
-  },
-];
+const sampleEvents = [];
 
 const EventContext = createContext();
 const ADMIN_PASSWORD = "SSTadmin123";
@@ -78,51 +38,102 @@ export const EventProvider = ({ children }) => {
 
   // Get events from local storage
   useEffect(() => {
-    const savedEvents = localStorage.getItem("events");
-    if (savedEvents) {
-      setEvents(JSON.parse(savedEvents));
-    } else {
-      setEvents(sampleEvents);
-    }
+    const fetchEvents = async () => {
+      try {
+        const { data, error } = await supabase
+          .from("events")
+          .select("*")
+          .order("date", { ascending: true });
 
-    const adminStatus = localStorage.getItem("isAdmin");
-    setIsAdmin(adminStatus === "true");
-    setIsInitialized(true);
+        if (error) throw error;
+
+        setEvents(data);
+      } catch (err) {
+        console.error("Supabase error:", err.message);
+        const fallback = localStorage.getItem("events");
+        setEvents(fallback ? JSON.parse(fallback) : sampleEvents);
+        alert("⚠ Supabase connection failed. Using localStorage data.");
+      } finally {
+        setIsInitialized(true);
+      }
+    };
+    fetchEvents();
   }, []);
 
   useEffect(() => {
-    if(isInitialized) localStorage.setItem("events", JSON.stringify(events));
+    if (isInitialized) localStorage.setItem("events", JSON.stringify(events));
   }, [events, isInitialized]);
 
-  const deleteEvent = (id) => {
+  const deleteEvent = async (id) => {
     if (!isAdmin) return false;
-    setEvents(events.filter((event) => event.id !== id));
-    return true;
+    try {
+      const { error } = await supabase.from("events").delete().eq("id", id);
+      if (error) throw error;
+      setEvents((prev) => prev.filter((e) => e.id !== id));
+      return true;
+    } catch (err) {
+      console.error("Delete Event Error:", err.message);
+      return false;
+    }
   };
 
-  const addEvent = (event) => {
+  const addEvent = async (event) => {
     if (!isAdmin) return false;
 
-    const newEvent = {
-      ...event,
-      id: Date.now().toString(),
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const { data, error } = await supabase
+        .from("events")
+        .insert([
+          {
+            title: event.title,
+            description: event.description,
+            category: event.category,
+            date: event.date,
+          },
+        ])
+        .select();
 
-    setEvents([...events, newEvent]);
-    return true;
+      if (error) throw error;
+      if (!data || !Array.isArray(data))
+        throw new Error("Invalid response from Supabase");
+
+      setEvents((prev) => [...prev, ...data]);
+      return true;
+    } catch (err) {
+      console.error("Add Event Error:", err.message);
+      return false;
+    }
   };
 
-  const updateEvent = (updatedEvent) => {
+  const updateEvent = async (updatedEvent) => {
     if (!isAdmin) return false;
+    try {
+      const { data, error } = await supabase
+        .from("events")
+        .update({
+          title: updatedEvent.title,
+          description: updatedEvent.description,
+          category: updatedEvent.category,
+          date: updatedEvent.date,
+        })
+        .eq("id", updatedEvent.id);
 
-    setEvents(
-      events.map((event) =>
-        event.id === updatedEvent.id ? updatedEvent : event
-      )
-    );
-    return true;
+      if (error) throw error;
+
+      setEvents((prev) =>
+        prev.map((e) => (e.id === updatedEvent.id ? updatedEvent : e))
+      );
+      return true;
+    } catch (err) {
+      console.error("Update Event Error:", err.message);
+      return false;
+    }
   };
+
+  useEffect(() => {
+    const adminStatus = localStorage.getItem("isAdmin");
+    setIsAdmin(adminStatus === "true");
+  }, []);
 
   const login = (password) => {
     if (password === ADMIN_PASSWORD) {
